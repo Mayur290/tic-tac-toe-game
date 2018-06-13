@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>tic tac toe</title>
+  <style >
+    .container{
+      border:8px solid  rgba(230, 230, 230,0.6);
+      width:480px;
+      height:480px;
+
+    }
+        .square{
+          width:150px;
+          height:150px;
+          border:5px solid ;
+          margin:0;
+          font-size: 100px;
+          text-align: center;
+          background-color: white;
+          background-image: url("picsu.jpg");
+          background-repeat: repeat;
+          background-position: left top;
+            border-image: url("border.jpg") 20 round;
+            border-image-width: 10px;
+        }
+        .main_container {
+          margin-left: 438px;
+          float: left;
+          margin-right: 100px;
+        }
+        .flex-container{
+          display:flex;
+        }
+        .flex-column{
+          flex-direction: column;
+        }
+        .flex-wrap{
+          flex-wrap:wrap;
+        }
+        #btn{
+          font-size: 35px;
+          width:200px;
+          height:80px;
+          text-align: center;
+          font-weight: bold;
+          background-image: url("btn.jpg");
+          background-repeat: repeat;
+          color:#ffff33; 
+          border: 3px solid ;
+          margin-bottom: 20px;
+            border-image: url("image.jpg") 25 round;
+            border-image-width: 10px;
+            border-radius: 12px;
+        }
+        #btn:hover{
+               font-size: 40px;
+               color:brown;
+            width:220px;
+            height:100px;
+           
+        }
+        #cola ,#cola2{
+          font-size: 40px;
+               color:brown;
+               background-color: floralwhite;
+            overflow: auto;
+            background-image: url("white.jpg") ;
+            
+
+        }
+        body{
+          background-image: url("tile.jpg");
+          background-position: left top;
+          background-repeat: repeat;
+           font-family: 'Open Sans',sans-serif;
+              
+        }
+
+        .square:hover{
+          background-color: #8db600;
+
+        }
+
+       
+        #subcon{
+          font-size: 60px;
+          text-align: center;
+          color:red;
+          animation-name: discolight;
+          animation-duration: 4s;
+          animation-iteration-count: 60;
+          border-radius: 8px;
+          margin-bottom: 10px;
+          background-color: white;
+          border: 2px solid  floralwhite;
+
+          box-shadow:14px 14px 15px rgba(0, 0, 0,0.6);
+
+           
+        }
+         @keyframes discolight{
+        0% {color:red; background-color: #F5FF00;}
+        25% {color: yellow; background-color: #FF2300; }
+        50% {color: black; background-color:yellow;}
+        75% {color: blue; background-color: #00F700;}
+        100% {color:#09568d; background-color: #F5FF00;}
+      }
+        </style>
+        <script>
+         let player="x";
+         let opponent="o";
+         var board=[ [],[],[]];
+         console.log("board="+board);
+         var i,j,k,l,n,m,p,q,eval1,eval2,num=0,score;
+         
+        function evaluate(i,j){
+          //row wise evaluation for winner
+          if((board[i][0]==board[i][1])  &&  (board[i][1]==board[i][2]) ){
+             
+              if(board[i][0]=="o"){return -10;}
+              else  if(board[i][0]=="x"){return 10;}
+              
+            } 
+         //column wise evaluation for winner
+        if((board[0][i]==board[1][i])  &&  (board[1][i]==board[2][i]) ){
+           
+              if(board[0][i]=="o"){return -10;}
+              else if(board[0][i]=="x"){return 10;}
+              
+            } 
+          //right diagonal wise evaluation for winner
+          if((board[0][0]==board[1][1])  &&  (board[1][1]==board[2][2]) ){
+             
+            if(board[0][0]=="o"){return -10;}
+              else  if(board[0][0]=="x"){return 10;}
+               }
+
+           //left diagonal wise evaluation for winner
+            if((board[0][2]==board[1][1])  &&  (board[1][1]==board[2][0]) ){
+               
+             if(board[0][2]=="o"){return -10;}
+              else if(board[0][2]=="x"){return 10;}
+               }
+               else
+              {return 0;} }
+
+
+       
+     function isempty(){
+     
+          for(i=0;i<3;i++){
+            for(j=0;j<3;j++){
+           
+              k=0;
+            if(board[i][j]==null){
+             
+                board[i][j]=opponent;
+                
+                
+                score=evaluate(i,j);
+                 
+                if(score== -10){
+                  k=1;
+                  num++;
+                  document.getElementById("box"+i+j).style.color="#00443f";
+                  document.getElementById("box"+i+j).innerHTML = opponent;
+                  i=j= 6;
+                  }
+                  else{
+                    board[i][j]=player;
+                     
+                     score=evaluate(i,j);
+                     
+                  if(score==10){
+                  k=1;
+                  num++;
+                  board[i][j]=opponent;
+                  document.getElementById("box"+i+j).style.color="#00443f";
+                  document.getElementById("box"+i+j).innerHTML = opponent;
+                  
+       
+                  i=j= 6;
+                  }else{ 
+                    board[i][j]="";
+                    
+       
+                    p=i;
+                    q=j; }
+                  }  
+               }
+          }  }
+          if(k==0 && (i>2 && j>2)){
+            board[p][q]=opponent;
+            document.getElementById("box"+p+q).style.color="#00443f";
+                  document.getElementById("box"+p+q).innerHTML = opponent;
+            
+            num++;
+        }
+       
+        
+    }
+        function oppo(x,y){
+
+        if(x==0 && y==0){i=2,j=1;}
+        else{j=x+1,i=y; 
+         
+          if(i==2 || i>2){i=Math.abs(i-j);}
+          if(j==2 || j>2){j=0;}
+         
+          while(board[i][j] != null){
+             if(j==2){n=1;}
+             if(i==2){m=1;}
+             if(j<2){j++,n=0,m=0; }
+             if(j==2 && n==1){i++,j=0; }
+             if(((i==2 && j==2) && (n==1 && m==1) ) || ((i>2 && m==1) || (j>2 && n==1)) ){i=0,j=0; }
+           }  
+        }
+        board[i][j]=opponent;
+          document.getElementById("box"+i+j).style.color="#00443f";
+          document.getElementById("box"+i+j).innerHTML = opponent;
+          num++;
+         
+       }
+
+       function action(x,y){
+        if(board[x][y]>0){alert("Don't cheat or i'll cheat too!");}
+        else{
+          board[x][y] = player;
+           document.getElementById("box"+x+y).style.color="#30267a";
+           document.getElementById("box"+x+y).innerHTML = player;
+           num++;
+          if(num<9){
+            if(num<3){oppo(x,y);}
+            else if(num>2 && num<9){ isempty(); }
+          }
+       } }
+
+        </script>
+</head>
+<body>
+  <div id="subcon">TIC TAC TOE GAME</div>
+  <div class="main_container "> 
+  <div class="container  flex-container flex-column flex-wrap">
+   
+    <div class="square" id="box00" onclick="action(0,0)" ></div>
+    <div class="square" id="box01" onclick="action(0,1)"></div>
+    <div class="square" id="box02" onclick="action(0,2)"></div>
+    <div class="square" id="box10" onclick="action(1,0)"></div>
+    <div class="square" id="box11" onclick="action(1,1)"></div>
+    <div class="square" id="box12" onclick="action(1,2)"></div>
+    <div class="square" id="box20" onclick="action(2,0)"></div>
+    <div class="square" id="box21" onclick="action(2,1)"></div>
+    <div class="square" id="box22" onclick="action(2,2)"></div>
+
+    
+   </div>
+   
+   </div>
+   <button  id="btn" onclick="reset()">RESET</button>
+   <div id="cola"></div>
+   <div id="cola2"></div>
+
+</body>
+</html>
